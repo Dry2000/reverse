@@ -14,6 +14,12 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         let boards=Board()
         print(boards)
+        
+         let move = Move(color: .Black, row: 3, column: 2)
+        var count = move.countFlippabeDisks(direction: (vertical: .Hold, horizonal: .Forword), cells:boards.cells )
+        print(count)
+        count = move.countFlippabeDisks(direction: (vertical: .Forword, horizonal: .Hold), cells:boards.cells )
+        print(count)
     }
 
     override var shouldAutorotate: Bool {
