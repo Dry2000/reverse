@@ -7,21 +7,26 @@
 import UIKit
 import SpriteKit
 import GameplayKit
-
+let scene = GameScene(fileNamed: "GameScene")
 class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let boards=Board()
+        let boards = Board()
         print(boards)
         
-         let move = Move(color: .Black, row: 3, column: 2)
-        var count = move.countFlippabeDisks(direction: (vertical: .Hold, horizonal: .Forword), cells:boards.cells )
-        print(count)
-        count = move.countFlippabeDisks(direction: (vertical: .Forword, horizonal: .Hold), cells:boards.cells )
-        print(count)
+        if let view = self.view as! SKView? {
+            // Load the SKScene from 'GameScene.sks'
+            if let scene = GameScene(fileNamed: "GameScene") {
+                // Set the scale mode to scale to fit the window
+                scene.scaleMode = .aspectFill
+                
+                // Present the scene
+                view.presentScene(scene)
+                scene.initBoard()
+            }
+        }
     }
-
     override var shouldAutorotate: Bool {
         return true
     }
