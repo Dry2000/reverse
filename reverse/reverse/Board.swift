@@ -29,9 +29,23 @@ class Board:CustomStringConvertible{
         }
         return rows.reversed().joined(separator:"\n")
     }
+    func makeMove(move:Move){
+        for vertical in line.allValues{
+            for horizonal in line.allValues{
+                if vertical == .Hold && horizonal == .Hold{
+                    continue
+                }
+                let direction = (vertical,horizonal)
+                let count = move.countFlippabeDisks(direction: direction, cells: self.cells)
+                if count > 0 {
+                    let y = vertical.rawValue
+                    let x = vertical.rawValue
+                    for i in 1...count{
+                        self.cells[move.row+i*y,move.column+i*x] = move.color
+                    }
+                }
+            }
+        }
+    self.cells[move.row,move.column] = move.color
+    }
 }
-
-
-
-
-
