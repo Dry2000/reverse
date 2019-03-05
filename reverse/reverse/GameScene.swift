@@ -7,8 +7,9 @@
 import SpriteKit
 import GameplayKit
 
-var positions:[[CGPoint]]!
-
+var nodes:CGPoint!
+var positions:[SKSpriteNode] = []
+var p:SKSpriteNode!
 let SquareHeight:CGFloat = 20.0
 let SquareWidth:CGFloat = 20.0
 let StoneImageNames = [
@@ -21,6 +22,7 @@ class GameScene: SKScene {
     var diskNodes = board<SKSpriteNode>(rows: BoardSize, columns: BoardSize)
     var boardState:Board!
     override func didMove(to view: SKView) {
+        setposition()
         super.anchorPoint = CGPoint(x:0.5,y:0.5)
         
         let background=SKSpriteNode(imageNamed:"background")
@@ -39,9 +41,9 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch:AnyObject in touches{
-            let location=touch.location(in:self)
+            let location = touch.location(in:self)
             if let (row,column) = self.convertPointOnBoard(point:location){
-                print(row,column)
+                //print(row,column)
             }
         }
     }
@@ -95,51 +97,50 @@ class GameScene: SKScene {
         }
     }
     func convertPointOnLayer(row:Int,column:Int)->CGPoint{
-        var x:CGFloat
-        var y:CGFloat
-        if column<4{
-            x = CGFloat(-1*(column-2))*SquareWidth-30
-        }else{
-            x = CGFloat((column-2))*SquareWidth
-        }
-        if row<4{
-            y = CGFloat(-1*(row-2))*SquareHeight
-        }else{
-            y = CGFloat((row-2))*SquareHeight+30
-        }
+        var x:Int
+        var y:Int
+        x = 90*(column-4)+44
+        y = 90*(row-4)+64
         return CGPoint(x:x,y:y)
     }
     func convertPointOnBoard(point:CGPoint)->(row:Int,column:Int)?{
         var x:Int
         var y:Int
-        x=Int(point.x/75)
-        y=Int(point.y/75)
-        print(y,x)
+        var nodes = self.atPoint(point)
+        x=Int(nodes.position.x/90)
+        y=Int(nodes.position.y/90)
+       // print(y,x)
         if x == 0 && point.x<0{
             x = 3
         }else if point.x>0 && x == 0{
             x = 4
+        }else if point.x>0{
+            x += 4
         }else{
             x += 3
-        }
-        if x == -1{
-            x = 0
-        }else if x == 8{
-            x = 7
         }
         if y == 0 && point.y<0{
             y = 3
         }else if point.y>0 && y == 0{
             y = 4
+        }else if point.y>0{
+            y += 4
         }else{
             y += 3
         }
-        if y == -1{
-            y = 0
-        }else if y == 8{
-            y = 7
-        }
-        print(point,x,y)
+       // print(point,x,y)
         return (row:y,column:x)
+    }
+    func setposition(){
+        for row in 0..<BoardSize{
+            for column in 0..<BoardSize{
+                    p = SKSpriteNode(imageNamed:"invisible")
+                    p.position=CGPoint(x:90*(column-4)+44,y:90*(row-4)+64)
+                   // print(p.position)
+                    positions.append(p)
+                
+                self.addChild(p)
+            }
+        }
     }
 }
