@@ -39,7 +39,7 @@ class Board:CustomStringConvertible{
                 let count = move.countFlippabeDisks(direction: direction, cells: self.cells)
                 if count > 0 {
                     let y = vertical.rawValue
-                    let x = vertical.rawValue
+                    let x = horizonal.rawValue
                     for i in 1...count{
                         self.cells[move.row+i*y,move.column+i*x] = move.color
                     }
