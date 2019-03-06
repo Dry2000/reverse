@@ -34,4 +34,22 @@ class Move{
             return 0
         }
     }
+    func canPlace(cells:board<CellState>) -> Bool{
+        if let state = cells[self.row,self.column]{
+            if state != .Empty{
+                return false
+            }
+        }
+        for vertical in line.allValues{
+            for horizonal in line.allValues{
+                if vertical == .Hold && horizonal == .Hold{
+                    continue
+                }
+                if 0<self.countFlippabeDisks(direction: (vertical,horizonal), cells: cells){
+                    return true
+                }
+            }
+        }
+        return false
+    }
 }
