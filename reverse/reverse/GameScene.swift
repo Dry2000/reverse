@@ -21,6 +21,7 @@ class GameScene: SKScene {
     let stoneLayer = SKNode()
     var diskNodes = board<SKSpriteNode>(rows: BoardSize, columns: BoardSize)
     var boardState:Board!
+    var nextColor:CellState!
     override func didMove(to view: SKView) {
         setposition()
         super.anchorPoint = CGPoint(x:0.5,y:0.5)
@@ -33,7 +34,7 @@ class GameScene: SKScene {
         self.stoneLayer.position = layerPosition
         self.gameLayer.addChild(self.stoneLayer)
         let test = SKSpriteNode(imageNamed:"enemy")
-        print(stoneLayer.position ,stoneLayer.zPosition)
+        //print(stoneLayer.position ,stoneLayer.zPosition)
         //print(test.position)
       //  self.addChild(test)
     }
@@ -44,6 +45,12 @@ class GameScene: SKScene {
             let location = touch.location(in:self)
             if let (row,column) = self.convertPointOnBoard(point:location){
                 //print(row,column)
+                let move = Move(color:self.nextColor,row:row,column:column)
+                if move.canPlace(cells:self.boardState.cells){
+                    self.boardState.makeMove(move: move)
+                    self.updateDiskNodes()
+                    self.nextColor = self.nextColor.opponent
+                }
             }
         }
     }
@@ -70,6 +77,7 @@ class GameScene: SKScene {
     func initBoard(){
         self.boardState = Board()
         self.updateDiskNodes()
+        self.nextColor = .Black
     }
     func updateDiskNodes(){
         for row in 0..<BoardSize{
@@ -90,7 +98,7 @@ class GameScene: SKScene {
                         self.addChild(newNode)
                        // print("\(newNode.position),\(newNode.zPosition) \n")
                         self.diskNodes[row,column] = newNode
-                        
+                       print(boardState)
                     }
                 }
             }
