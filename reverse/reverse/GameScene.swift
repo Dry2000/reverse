@@ -97,8 +97,7 @@ class GameScene: SKScene {
                        // newNode.zPosition = 10000
                         self.addChild(newNode)
                        // print("\(newNode.position),\(newNode.zPosition) \n")
-                        self.diskNodes[row,column] = newNode
-                       print(boardState)
+                        self.diskNodes[row,column] = newNode                  
                     }
                 }
             }
