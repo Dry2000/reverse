@@ -48,4 +48,29 @@ class Board:CustomStringConvertible{
         }
     self.cells[move.row,move.column] = move.color
     }
+    func countCells(state:CellState)->Int{
+        var count = 0
+        for row in 0..<BoardSize{
+            for column in 0..<BoardSize{
+                if self.cells[row,column] == state{
+                    count += 1
+                }
+            }
+        }
+        return count
+    }
+    func hasGameFinished() -> Bool{
+        return self.existsValidMove(color: .Black) == false && self.existsValidMove(color: .White) == false
+    }
+    func existsValidMove(color:CellState) -> Bool{
+        for row in 0..<BoardSize{
+            for column in 0..<BoardSize{
+                let move = Move(color: color, row:row, column: column)
+                if move.canPlace(cells: self.cells){
+                    return true
+                }
+            }
+        }
+        return false
+    }
 }
