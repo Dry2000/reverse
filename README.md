@@ -11,4 +11,4 @@ join(" ",A)→A.joined(separator:" ") 文字を結合させるjoin関数の文�
 
 convertPointOnLayerの中身　Xcode 8.0以降よりSpriteKitの座標系の変更による座標変換の変更
 
-新入生に向けての部活動紹介のために作成中
+AIの実装で現在挫折
